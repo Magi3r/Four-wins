@@ -1,5 +1,5 @@
 =begin
-	Four Wins by Sean & Jannek
+	Four Wins by Magi3r
 	
 	This Program should work, only the win-condition is not finished.
 	A player wins instantly when he places his 4th marker in a row or column,
@@ -146,4 +146,5 @@ while !win?(f.field, f.sizeX-1, f.sizeY-1) do
 	round+=1
 end
 puts "Player #{winner(round)} wins in #{round/2} turns!"
+sleep 3
 #system("exit")
