@@ -52,8 +52,8 @@ end
 def checkX(f, i, player)
     count=0
     while count<4
-        puts i+count
-        return false if ! f[i+count]==player
+        #puts i+count
+        return false if f[i+count]!=player
         count+=1
     end
     return true
@@ -62,8 +62,8 @@ end
 def checkY(f, sX, i, player)
     count=0
     while count<4
-        puts i+(2+sX)*count
-        return false if !f[i+(2+sX)*count]==player
+        #puts i+(2+sX)*count
+        return false if f[i+(2+sX)*count]!=player
         count+=1
     end
     return true
@@ -72,8 +72,8 @@ end
 def checkLeftDown(f, sX, i, player)
     count=0
     while count<4
-        puts i-count+sX*count
-        return false if !f[i-count+sX*count]==player
+        #puts i-count+sX*count
+        return false if f[i-count+sX*count]!=player
         count+=1
     end
     return true
@@ -82,8 +82,8 @@ end
 def checkRightDown(f, sX, i, player)
     count=0
     while count<4
-        puts i+count+sX*count
-        return false if !f[i+count+sX*count]==player
+        #puts i+count+sX*count
+        return false if f[i+count+sX*count]!=player
         count+=1
     end
     return true
@@ -143,16 +143,15 @@ end
 
 def win?(f)     #Hier entstehen FEHLER
     for i in 0..f.field.size
-       
+ 
         case f.field[i]        
         when 1
-            return checkAll(f.field, f.sizeX, i, 1)
+            return true if checkAll(f.field, f.sizeX, i, 1)
         when 2
-            return checkAll(f.field, f.sizeX, i, 2)
+            return true if checkAll(f.field, f.sizeX, i, 2)
         end
             
     end
-    puts "#ERROR! Player couldn't set his Pos!"
     return false
 end
 
