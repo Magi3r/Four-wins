@@ -103,11 +103,11 @@ def getPos(x)
 end
 
 def turn(player, f)
-    f.field[f.sizeX+1]=1    
+    f.field[f.sizeX+1]    
     puts "\nPlayer "+player.to_s
     pos=getPos(f.sizeX)
-    if f.field[pos]==0
-        for i in 1..f.sizeY do             #FEHLER
+    if f.field[pos+f.sizeX+2]==0
+        for i in 1..f.sizeY do             
             if f.field[-2-(f.sizeX-pos)-(i*(2+f.sizeX))] == 0 then
                 f.field[-2-(f.sizeX-pos)-(i*(2+f.sizeX))]= player
                 f.printMe
