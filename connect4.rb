@@ -80,7 +80,7 @@ end
 def checkRightDown(f, sX, i, player)
     count=0
     while count<4
-        puts i+count+sX*count
+        #puts i+count+sX*count
         return false if f[i+count+sX*count]!=player
         count+=1
     end
@@ -157,8 +157,11 @@ def cls
 	system "clear"	#Linux
 	system "cls"	#Windows
 end
-puts "Do you want to play connect 4 with a friend?
-until ["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
+
+puts "Do you want to play connect 4 with a friend?"
+puts "\nI only speek english, I won't understand other languages! And I hate punctations, so please don't use them!"
+
+until ! ["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
 cls
 system("color 0A")
 puts "How large the field should be?\nLeave blank for default size."
@@ -187,6 +190,6 @@ turn(1, f)
 
 puts
 puts "Play again?"
-puts "\nI only speek english, I won't understand other languages! And I hate punctations, so please don't use them!"
+puts "\nAs I said before, I only speek english! Don't use punctations, I hate them and wont't allow you to let you play again!"
 end
 #system("exit")
