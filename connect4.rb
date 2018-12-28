@@ -86,7 +86,7 @@ def checkRightDown(f, sX, i, player)
     end
     return true
 end
-
+                                                                                                            
 def checkAll(f, x, i, p)
     return (checkX(f, i, p) || checkY(f, x, i, p) || checkLeftDown(f, x, i, p) || checkRightDown(f, x, i, p))
 end
@@ -158,10 +158,9 @@ def cls
 	system "cls"	#Windows
 end
 
-puts "Do you want to play connect 4 with a friend?"
-puts "\nI only speek english, I won't understand other languages! And I hate punctations, so please don't use them!"
+playAgain=true
 
-until ! ["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
+while playAgain
 cls
 system("color 0A")
 puts "How large the field should be?\nLeave blank for default size."
@@ -190,6 +189,7 @@ turn(1, f)
 
 puts
 puts "Play again?"
-puts "\nAs I said before, I only speek english! Don't use punctations, I hate them and wont't allow you to let you play again!"
+print "\nDon't use punctations!\n"
+playAgain=["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
 end
 #system("exit")
