@@ -27,8 +27,13 @@ class Field
         sizeX=@sizeX
         cls
         for count in 1..@sizeX do     #prints Numbers
+          if count>=10
+            print " "+count.to_s
+          else
             print " "+count.to_s+" "
+          end
         end
+
         puts "\n\n"
 
         for i in (@sizeX+3)..((@sizeX+2)*(@sizeY+2))-(@sizeX+3) do     #prints the Field
@@ -41,10 +46,13 @@ class Field
         end
         puts
         for count in 1..@sizeX do     #prints Numbers again
+          if count>=10
+            print " "+count.to_s
+          else
             print " "+count.to_s+" "
+          end
         end
     end
-
 end
 
 def checkX(f, i, player)
@@ -161,35 +169,36 @@ end
 playAgain=true
 
 while playAgain
-cls
-system("color 0A")
-puts "How large the field should be?\nLeave blank for default size."
-print"\n (max 60) Length: "
-sizeX=gets.chop.to_i
-print "\n (max 60) Height: "
-sizeY=gets.chop.to_i
-if sizeX==0&&sizeY==0
-  puts "Taking default parameters."
-  sleep 1
-  f=Field.new
-elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
+  cls
+  system("color 0A")
+  puts "How large the field should be?\nLeave blank for default size."
+  print"\n (max 60) Length: "
+  sizeX=gets.chop.to_i
+  print "\n (max 60) Height: "
+  sizeY=gets.chop.to_i
+
+  if sizeX==0&&sizeY==0
+    puts "Taking default parameters."
+    sleep 1
+    f=Field.new
+  elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
     f=Field.new(sizeX, sizeY)
-elsif sizeY<=4||sizeX<=4||sizeY>=60||sizeX>=60
+  elsif sizeY<=4||sizeX<=4||sizeY>=60||sizeX>=60
     system("color 0C")
     for i in 1..3 do
-        cls
-        puts "ERROR - Values do not fit!\nTaking default parameters."
-        print 4-i
-        sleep 1
+      cls
+      puts "ERROR - Values do not fit!\nTaking default parameters."
+      print 4-i
+      sleep 1
     end
     system("color 0A")
     f=Field.new
-end
-turn(1, f)
+  end
 
-puts
-puts "Play again?"
-print "\nDon't use punctations!\n"
-playAgain=["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
+  turn(1, f)
+  puts ""
+  puts "Play again?"
+  puts "Just answer in one word."
+  print "\nDon't use punctations!\n"
+  playAgain=["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
 end
-#system("exit")
