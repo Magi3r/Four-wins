@@ -1,27 +1,27 @@
 =begin
     Four Wins by Magi3r
-    
+
     This Program should work, only the win-condition is not finished.
     A player wins instantly when he places his 4th marker in a row or column,
     no matter if there are seperated or together.
-    
+
     If you find any issuses, please tell them on https://github.com/Magi3r/Four-wins
-    
+
     TO-DO:
     - fix diagonal winning
 =end
 
 class Field
-    
+
     attr_accessor :sizeX, :sizeY, :field
-    
+
     def initialize(sizeX=7, sizeY=6) #Setting vars to Inputs or default
         @sizeX=sizeX
         @sizeY=sizeY
         @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
         self.printMe
     end
-    
+
 
     def printMe        #Customized printing of field
         sizeX=@sizeX
@@ -35,7 +35,7 @@ class Field
             if (i+1)%(sizeX+2)==0
                 puts
                 next
-            end            
+            end
             next if (i%(sizeX+2)==0)
             print " "+@field[i].to_s+" "
         end
@@ -44,7 +44,7 @@ class Field
             print " "+count.to_s+" "
         end
     end
-    
+
 end
 
 def checkX(f, i, player)
@@ -86,7 +86,7 @@ def checkRightDown(f, sX, i, player)
     end
     return true
 end
-                                                                                                            
+
 def checkAll(f, x, i, p)
     return (checkX(f, i, p) || checkY(f, x, i, p) || checkLeftDown(f, x, i, p) || checkRightDown(f, x, i, p))
 end
@@ -103,11 +103,11 @@ def getPos(x)
 end
 
 def turn(player, f)
-    f.field[f.sizeX+1]    
+    f.field[f.sizeX+1]
     puts "\nPlayer "+player.to_s
     pos=getPos(f.sizeX)
     if f.field[pos+f.sizeX+2]==0
-        for i in 1..f.sizeY do             
+        for i in 1..f.sizeY do
             if f.field[-2-(f.sizeX-pos)-(i*(2+f.sizeX))] == 0 then
                 f.field[-2-(f.sizeX-pos)-(i*(2+f.sizeX))]= player
                 f.printMe
@@ -134,21 +134,21 @@ end
 
 def unentschieden?(f)
     for n in f.sizeX+4..2*f.sizeX+3
-        return false if f.field[n]==0 
+        return false if f.field[n]==0
     end
     return true
 end
 
 def win?(f)     #Hier entstehen FEHLER
     for i in 0..f.field.size
- 
-        case f.field[i]        
+
+        case f.field[i]
         when 1
             return true if checkAll(f.field, f.sizeX, i, 1)
         when 2
             return true if checkAll(f.field, f.sizeX, i, 2)
         end
-            
+
     end
     return false
 end
@@ -164,21 +164,21 @@ while playAgain
 cls
 system("color 0A")
 puts "How large the field should be?\nLeave blank for default size."
-print"\n Length: "
+print"\n (max 60) Length: "
 sizeX=gets.chop.to_i
-print "\n Height: "
+print "\n (max 60) Height: "
 sizeY=gets.chop.to_i
-if sizeY>=4&&sizeX>=4&&sizeY.integer?&&sizeX.integer?
+if sizeX==0&&sizeY==0
+  puts "Taking default parameters."
+  sleep 1
+  f=Field.new
+elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
     f=Field.new(sizeX, sizeY)
-elsif sizeX==0&&sizeY==0
-    puts "Taking default parameters."
-    sleep 1
-    f=Field.new
-else
+elsif sizeY<=4||sizeX<=4||sizeY>=60||sizeX>=60
     system("color 0C")
     for i in 1..3 do
         cls
-        puts "ERROR - Values too small!\nTaking default parameters."
+        puts "ERROR - Values do not fit!\nTaking default parameters."
         print 4-i
         sleep 1
     end
