@@ -166,9 +166,7 @@ def cls
 	system "cls"	#Windows
 end
 
-playAgain=true
-
-while playAgain
+def game
   cls
   system("color 0A")
   puts "How large the field should be?\nLeave blank for default size."
@@ -200,5 +198,7 @@ while playAgain
   puts "Play again?"
   puts "Just answer in one word."
   print "\nDon't use punctations!\n"
-  playAgain=["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
+  game if ["yes", "yeah", "of cause", "why not", "ok", "okay"].include?(gets.chop.downcase)
 end
+
+game
