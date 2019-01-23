@@ -77,20 +77,22 @@ end
 
 def checkLeftDown(f, sX, i, player)
     count=0
+    puts "\nLeftDown:"
     while count<4
-        #puts i-count+sX*count
-        return false if f[i-count+sX*count]!=player
-        count+=1
+      puts i-count+(sX+2)*count
+      return false if f[i-count+(sX+2)*count]!=player
+      count+=1
     end
     return true
 end
 
 def checkRightDown(f, sX, i, player)
     count=0
+    puts "\nRightDown:"
     while count<4
-        #puts i+count+sX*count
-        return false if f[i+count+sX*count]!=player
-        count+=1
+      puts i+count+(sX+2)*count
+      return false if f[i+count+(sX+2)*count]!=player
+      count+=1
     end
     return true
 end
@@ -147,7 +149,7 @@ def unentschieden?(f)
     return true
 end
 
-def win?(f)     #Hier entstehen FEHLER
+def win?(f)
     for i in 0..f.field.size
 
         case f.field[i]
