@@ -13,19 +13,56 @@
 
 class Field
 
-    attr_accessor :sizeX, :sizeY, :field
+    attr_accessor :sizeX, :sizeY, :field, :winCount
 
-    def initialize(sizeX=7, sizeY=6) #Setting vars to Inputs or default
-        @sizeX=sizeX
-        @sizeY=sizeY
-        @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
-        self.printMe
+    def initialize
+      system("color 0A")
+      puts "How large the field should be?\nLeave blank for default size.(7x6)"
+      print"\n (4 - 60) Length: "
+      sizeX=gets.chop.to_i
+      print "\n (4 - 60) Height: "
+      sizeY=gets.chop.to_i
+      if sizeX==0&&sizeY==0
+        puts "Taking default size."
+        @sizeX, @sizeY=7,6
+      elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
+        @sizeX, @sizeY=sizeX, sizeY
+      else
+        system("color 0C")
+        cls
+        puts "ERROR - Unallowed Values!\nTaking default size."
+        sleep 2
+        system("color 0A")
+        @sizeX, @sizeY=7,6
+      end
+      cls
+      puts "How many markers in a line you want to need to win?\nLeave blank for default size.(4)"
+      @winCount=gets.chop.to_i
+      case @winCount
+      when @winCount>sizeX&&@winCount>sizeY
+        cls
+        puts "Winning not possible, taking default."
+        sleep 2
+        system("color 0A")
+        @winCount=4
+      when 0
+        puts "Taking default."
+        @wincount=4
+      when 1
+        puts "BORING!"
+        while @wincount<2||(@wincount>@sizeX&&@wincount>@sizeY)
+          puts "Just type another value!"
+          @wincount=gets.chop.to_i
+        end
+      end
+       #Setting vars to Inputs or default
+      @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
+      self.printMe
     end
 
-
     def printMe        #Customized printing of field
-        sizeX=@sizeX
         cls
+        puts "Needing "+@winCount.to_s+" in a line to win!"
         for count in 1..@sizeX do     #prints Numbers
           if count>=10
             print " "+count.to_s
@@ -55,9 +92,9 @@ class Field
     end
 end
 
-def checkX(f, i, player)
+def checkX(f, i, player, win)
     count=0
-    while count<4
+    while count<win
         #puts i+count
         return false if f[i+count]!=player
         count+=1
@@ -65,9 +102,9 @@ def checkX(f, i, player)
     return true
 end
 
-def checkY(f, sX, i, player)
+def checkY(f, sX, i, player, win)
     count=0
-    while count<4
+    while count<win
         #puts i+(2+sX)*count
         return false if f[i+(2+sX)*count]!=player
         count+=1
@@ -75,30 +112,30 @@ def checkY(f, sX, i, player)
     return true
 end
 
-def checkLeftDown(f, sX, i, player)
+def checkLeftDown(f, sX, i, player, win)
     count=0
-    puts "\nLeftDown:"
-    while count<4
-      puts i-count+(sX+2)*count
+    #puts "\nLeftDown:"
+    while count<win
+      #puts i-count+(sX+2)*count
       return false if f[i-count+(sX+2)*count]!=player
       count+=1
     end
     return true
 end
 
-def checkRightDown(f, sX, i, player)
+def checkRightDown(f, sX, i, player, win)
     count=0
-    puts "\nRightDown:"
-    while count<4
-      puts i+count+(sX+2)*count
+    #puts "\nRightDown:"
+    while count<win
+      #puts i+count+(sX+2)*count
       return false if f[i+count+(sX+2)*count]!=player
       count+=1
     end
     return true
 end
 
-def checkAll(f, x, i, p)
-    return (checkX(f, i, p) || checkY(f, x, i, p) || checkLeftDown(f, x, i, p) || checkRightDown(f, x, i, p))
+def checkAll(f, x, i, p, win)
+    return (checkX(f, i, p, win) || checkY(f, x, i, p, win) || checkLeftDown(f, x, i, p, win) || checkRightDown(f, x, i, p, win))
 end
 
 def getPos(x)
@@ -154,9 +191,9 @@ def win?(f)
 
         case f.field[i]
         when 1
-            return true if checkAll(f.field, f.sizeX, i, 1)
+            return true if checkAll(f.field, f.sizeX, i, 1, f.winCount)
         when 2
-            return true if checkAll(f.field, f.sizeX, i, 2)
+            return true if checkAll(f.field, f.sizeX, i, 2, f.winCount)
         end
 
     end
@@ -170,31 +207,7 @@ end
 
 def game
   cls
-  system("color 0A")
-  puts "How large the field should be?\nLeave blank for default size."
-  print"\n (max 60) Length: "
-  sizeX=gets.chop.to_i
-  print "\n (max 60) Height: "
-  sizeY=gets.chop.to_i
-
-  if sizeX==0&&sizeY==0
-    puts "Taking default parameters."
-    sleep 1
-    f=Field.new
-  elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
-    f=Field.new(sizeX, sizeY)
-  elsif sizeY<=4||sizeX<=4||sizeY>=60||sizeX>=60
-    system("color 0C")
-    for i in 1..3 do
-      cls
-      puts "ERROR - Values do not fit!\nTaking default parameters."
-      print 4-i
-      sleep 1
-    end
-    system("color 0A")
-    f=Field.new
-  end
-
+  f=Field.new
   turn(1, f)
   puts ""
   puts "Play again?"
