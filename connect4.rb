@@ -16,6 +16,15 @@ class Field
     attr_accessor :sizeX, :sizeY, :field, :winCount
 
     def initialize
+      initSize
+      cls
+      initWinCount
+      #Setting vars to Inputs or default
+      @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
+      self.printMe
+    end
+
+    def initSize
       system("color 0A")
       puts "How large the field should be?\nLeave blank for default size.(7x6)"
       print"\n (4 - 60) Length: "
@@ -35,7 +44,9 @@ class Field
         system("color 0A")
         @sizeX, @sizeY=7,6
       end
-      cls
+    end
+
+    def initWinCount
       puts "How many markers in a line you want to need to win?\nLeave blank for default size.(4)"
       @winCount=gets.chop.to_i
       case @winCount
@@ -55,9 +66,6 @@ class Field
           @winCount=gets.chop.to_i
         end
       end
-       #Setting vars to Inputs or default
-      @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
-      self.printMe
     end
 
     def printMe        #Customized printing of field
