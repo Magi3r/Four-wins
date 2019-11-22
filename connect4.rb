@@ -47,12 +47,12 @@ class Field
         @winCount=4
       when 0
         puts "Taking default."
-        @wincount=4
+        @winCount=4
       when 1
         puts "BORING!"
-        while @wincount<2||(@wincount>@sizeX&&@wincount>@sizeY)
+        while @winCount<2||(@winCount>@sizeX&&@winCount>@sizeY)
           puts "Just type another value!"
-          @wincount=gets.chop.to_i
+          @winCount=gets.chop.to_i
         end
       end
        #Setting vars to Inputs or default
