@@ -13,7 +13,6 @@ class Field
     initSize
     cls
     initWinCount
-    #Setting vars to Inputs or default
     @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
     self.printMe
   end
