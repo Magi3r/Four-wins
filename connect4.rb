@@ -1,14 +1,7 @@
 =begin
     Four Wins by Magi3r
 
-    This Program should work, only the win-condition is not finished.
-    A player wins instantly when he places his 4th marker in a row or column,
-    no matter if there are seperated or together.
-
-    If you find any issuses, please tell them on https://github.com/Magi3r/Four-wins
-
-    TO-DO:
-    - fix diagonal winning
+    If you find any issuses, please tell them on https://github.com/Magi3r/connect4
 =end
 
 class Field
