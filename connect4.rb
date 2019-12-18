@@ -9,12 +9,16 @@ class Field
 
   attr_accessor :sizeX, :sizeY, :field, :winCount
 
-  def initialize
-    initSize
-    cls
-    initWinCount
-    @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
-    self.printMe
+  def initialize(field = nil)
+    if ! field.nil?()
+      @sizeX, @sizeY = initSize()
+      cls()
+      @winCount = initWinCount(@sizeX, @sizeY)
+      @field=Array.new((@sizeY+2)*(@sizeX+2), 0)
+    else
+      @field=field
+    end
+    self.printMe()
   end
 
   def initSize
@@ -26,44 +30,45 @@ class Field
     sizeY=gets.chop.to_i
     if sizeX==0&&sizeY==0
       puts "Taking default size."
-      @sizeX, @sizeY=7,6
+      return 7,6
     elsif sizeY>=4&&sizeX>=4&&sizeY<=60&&sizeX<=60
-      @sizeX, @sizeY=sizeX, sizeY
+      return sizeX, sizeY
     else
       system("color 0C")
       cls
-      puts "ERROR - Unallowed Values!\nTaking default size."
+      puts "ERROR - Illegal Values!"
+      puts "Taking default size."
       sleep 2
       system("color 0A")
-      @sizeX, @sizeY=7,6
+      return 7,6
     end
   end
 
-  def initWinCount
+  def initWinCount(sizeX, sizeY)
     puts "How many markers in a line you want to need to win?\nLeave blank for default size.(4)"
-    @winCount=gets.chop.to_i
-    case @winCount
-    when @winCount>sizeX&&@winCount>sizeY
-      cls
+    winCount=gets.chop.to_i
+    case winCount
+    when ((winCount > sizeX) && (winCount > sizeY))
+      cls()
       puts "Winning not possible, taking default."
       sleep 2
       system("color 0A")
-      @winCount=4
+      return 4
     when 0
       puts "Taking default."
-      @winCount=4
-    when 1
+      return 4
+    when 1, 2
       puts "BORING!"
-      while @winCount<2||(@winCount>@sizeX&&@winCount>@sizeY)
+      while ((winCount<3)||((winCount>sizeX)&&(winCount>sizeY))
         puts "Just type another value!"
-        @winCount=gets.chop.to_i
+        winCount=gets.chop.to_i
       end
     end
   end
 
   def printMe        #Customized printing of field
       cls
-      puts "Needing "+@winCount.to_s+" in a line to win!"
+      puts @winCount.to_s+" in a line to win!"
       for count in 1..@sizeX do     #prints Numbers
         if count>=10
           print " "+count.to_s
@@ -93,43 +98,43 @@ class Field
   end
 end
 
-def checkX(f, i, player, win)
+def checkRow(field, i, player, winCount)
   count=0
-  while count<win
+  while count<winCount
       #puts i+count
-      return false if f[i+count]!=player
+      return false unless field[i+count].eql?(player)
       count+=1
   end
   return true
 end
 
-def checkY(f, sX, i, player, win)
+def checkCol(field, sizeX, i, player, winCount)
   count=0
-  while count<win
+  while (count < winCount)
       #puts i+(2+sX)*count
-      return false if f[i+(2+sX)*count]!=player
+      return false unless field[i+(2+sizeX)*count].eql?(player)
       count+=1
   end
   return true
 end
 
-def checkLeftDown(f, sX, i, player, win)
+def checkLeftDown(field, sizeX, i, player, winCount)
   count=0
   #puts "\nLeftDown:"
-  while count<win
+  while (count < winCount)
     #puts i-count+(sX+2)*count
-    return false if f[i-count+(sX+2)*count]!=player
+    return false unless field[i-count+(sizeX+2)*count].eql?(player)
     count+=1
   end
   return true
 end
 
-def checkRightDown(f, sX, i, player, win)
-  count=0
+def checkRightDown(field, sizeX, i, player, winCount)
+  count = 0
   #puts "\nRightDown:"
-  while count<win
+  while (count < winCount)
     #puts i+count+(sX+2)*count
-    return false if f[i+count+(sX+2)*count]!=player
+    return false unless field[i+count+(sizeX+2)*count].eql?(player)
     count+=1
   end
   return true

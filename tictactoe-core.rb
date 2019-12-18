@@ -1,23 +1,19 @@
 END_CONDITION_WIN=0
 END_CONDITION_DRAW=1
 
-module TicTacToe
+module Connect4
     class Game
         def initialize(player1, player2, loops=0)
             @field = Field.new(Array.new(9, " "))
             @activePlayer = player1
             @nonActivePlayer = player2
-            player1.symbol="X"
-            player2.symbol="O"
-			player1.otherSymbol=player2.symbol if player1.is_ai?
-			player2.otherSymbol=player1.symbol if player2.is_ai?
             @loops = loops
             self.run
         end
 
         def run
             loop do
-                self.setMarker
+                self.setMarker()
                 return self.end(END_CONDITION_WIN) if @field.checkWin(@activePlayer.symbol)
                 return self.end(END_CONDITION_DRAW) if @field.checkDraw()
                 @activePlayer, @nonActivePlayer = @nonActivePlayer, @activePlayer
@@ -41,16 +37,20 @@ module TicTacToe
             TicTacToe::Game.new(@nonActivePlayer, @activePlayer, @loops-1) if @loops>0
             puts "Do you want to restart the game? (y/n)"
             input = @activePlayer.getInput.capitalize until ["Y", "N"].include? input
-            return if input.eql? "N"
+            return if input == "N"
             TicTacToe::Game.new(@nonActivePlayer, @activePlayer) if input.eql? "Y"
             fail
         end
     end
 
     class Field
-        attr_accessor :field
-        def initialize(field=Array.new(9," "))
-            @field = field
+        attr_accessor :field, :sizeX, :sizeY
+        def initialize(field=nil)
+            unless field.nil?()
+                @field = field.dup()
+            else
+
+            end
         end
 
         public
@@ -66,7 +66,7 @@ module TicTacToe
         def checkRows(field=@field, symbol)
         	row=1
         	3.times do
-        		puts "CheckRows: "+row.to_s+", "+symbol
+        		
             	return true if checkRow(field, row, symbol)
             	row+=1
         	end
